@@ -32,6 +32,16 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   unzip \
   wget
 
+# Maven 3.6.1 and later have better retry behavior to work around network problems.
+# Can remove this once Ubuntu LTS has such a version.
+RUN export DEBIAN_FRONTEND=noninteractive \
+&& VER=3.6.3 \
+&& mkdir -p $HOME/bin/install \
+&& cd $HOME/bin/install \
+&& wget http://apache.mirrors.pair.com/maven/maven-3/${VER}/binaries/apache-maven-${VER}-bin.tar.gz \
+&& tar xzf apache-maven-${VER}-bin.tar.gz \
+&& export PATH=$HOME/bin/install/apache-maven-${VER}/bin:$PATH
+
 RUN export DEBIAN_FRONTEND=noninteractive \
 && apt-get -qqy update \
 && apt-get -qqy install \
